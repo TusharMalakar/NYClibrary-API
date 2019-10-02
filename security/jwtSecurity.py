@@ -95,27 +95,26 @@ def requires_auth(function):
         auth_token = False
         if not auth_token:
             auth_token = request.header.get('Authorization')
-        if not p_access:
-            p_access = request.header.get('Authorization')
-        if not p_access:
-            p_access = Response('This online libray designed for NY')
         if not auth_token:
             return Response('Missing Auth Token!\n' 'You have to login with proper credentials', 401,
                             {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
         username = cookie_decoder(auth_token)
-        region = public_access_decoder(p_access)
 
         if username.startswith('SUCCESS'):
             request.userNameFromToken = username[7:]
-            return function(*args, **kwargs)
-        if region.startswith('SUCCESS'):
-            request.userNameFromToken = region[7:]
             return function(*args, **kwargs)
         else:
             return Response('\n' 'You have to login with proper credentials', 401,
                             {'WWW-Authenticate': 'Basic realm="Login Required"'})
     return decorated
+
+
+
+def requires_public_auth():
+    pass
+
+
 
 
 

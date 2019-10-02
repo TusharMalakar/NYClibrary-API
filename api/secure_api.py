@@ -8,22 +8,22 @@ secure_api = Blueprint('secure_api', __name__)
 @secure_api.route("/add", methods=['POST'])
 @security.jwtSecurity.requires_auth
 def add_books():
-    # http://0.0.0.0:5000/secure/add
+    # http://127.0.0.1:5000/secure/add
     """
 
     :return:
     """
-    pass
+    return json.dumps({'success': True})
 
 
 @secure_api.route("/delete", methods=['DELETE'])
 @security.jwtSecurity.requires_auth
 def delete_books():
-    # http://0.0.0.0:5000/secure/delete
+    # http://127.0.0.1:5000/secure/delete
     """
 
     :return:
     """
-    pass
+    return json.dumps({'success': True})
 
 

@@ -1,18 +1,19 @@
 import json
 
 from flask import Blueprint, request
-# from services.database.DBConn import database
+from services.database.DBConn import database
 from security.jwtSecurity import (session_cookie, public_cookie, gps)
 
 
-# userDB = database.users
+userDB = database.users
 auth_api = Blueprint('auth_api', __name__)
 
-@auth_api.route("/login")
+
+@auth_api.route("/login", methods=['GET'])
 def user_login():
     # access token  == usertoken
     """Generated End-Point Sample
-    http://0.0.0.0:5000/auth/login?username=testuser1&password=password
+    https://nyclibrary-api.appspot.com/auth/login?username=testuser1&password=password
     """
     username = request.args.get("username")
     password = request.args.get("password")
@@ -21,13 +22,12 @@ def user_login():
 
 
 
-@auth_api.route("/p_access")
+@auth_api.route("/p_access", methods=['GET'])
 def public_access():
-    # http://0.0.0.0:5000/auth/p_access
+    # http://127.0.0.1:5000/auth/p_access
     """
     :return:
     """
-    # access token  == p_access
     region = gps()
     if 'New York' not in region:
         return json.dumps({'error': "this website is designed only for New Yorker!"})

@@ -6,28 +6,23 @@ public_api = Blueprint('public_api', __name__)
 
 
 @public_api.route("/search", methods=['GET'])
-@security.jwtSecurity.requires_auth
 def search():
-    # http://0.0.0.0:5000/public/search
-    """
+    # http://127.0.0.1:5000/public/search
 
-    :return:
-    """
-    pass
+    return json.dumps({'success': True, 'message': "book is ready to read"})
 
 
 @public_api.route("/read", methods=['GET'])
-@security.jwtSecurity.requires_auth
 def read():
-    # http://0.0.0.0:5000/public/read
+    # http://127.0.0.1:5000/public/read
     """
 
     :return:
     """
-    pass
+    return json.dumps({'success': True})
 
 
 @public_api.route("/createUser", methods=['POST'])
 def createUser():
-    # http://0.0.0.0:5000/public/createUser
-    pass
+    # http://127.0.0.1:5000/public/createUser
+    return json.dumps({'success': True})
