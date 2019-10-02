@@ -1,4 +1,4 @@
-import os, pprint
+import os
 import jwt
 import requests
 import datetime
@@ -119,6 +119,6 @@ def requires_auth(function):
 
 
 
-if __name__ == "__main__":
-    print(session_cookie("hi"))
-
+# if __name__ == "__main__":
+#     print(session_cookie("hi"))
+#

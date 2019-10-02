@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_cors import CORS
-import requests, pprint
-import requests, pprint
+
 from api.secure_api import secure_api
 from api.public_api import public_api
 from api.authrization_api import auth_api
+
 
 app = Flask(__name__)
 CORS(app)
@@ -24,4 +24,4 @@ def helloWorld():
 
 if __name__ == "__main__":
     # http://0.0.0.0:5000/
-    app.run(port=5000, debug=True, host='0.0.0.0')
+    app.run(port=5000, debug=True, host='127.0.0.1')
