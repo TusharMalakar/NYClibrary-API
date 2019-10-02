@@ -8,4 +8,4 @@
     git pull
 
 4. do not merge with master without conversation
-    git merge branch to master
+    git merge tusharBranch
