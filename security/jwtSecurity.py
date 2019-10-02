@@ -111,7 +111,7 @@ def requires_auth(function):
 
 
 
-def requires_public_auth():
+def requires_nyc_auth():
     pass
 
 
