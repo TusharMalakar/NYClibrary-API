@@ -1,5 +1,6 @@
-import os
+import os, pprint
 import jwt
+import requests
 import datetime
 
 from functools import wraps
@@ -9,6 +10,24 @@ key = "ThisIsAVeryBadAPISecretKeyThatIsOnlyUsedWhenRunningLocally"
 if 'API_KEY' in os.environ: SECRET_KEY = os.environ['API_KEY']
 
 
+def gps():
+    # Step 1) Find the public IP of the user. This is easier said that done, look into the library Netifaces if you're
+    # interested in getting the public IP locally.
+    # The GeoIP API I'm going to use here is 'https://geojs.io/' but any service offering similar JSON data will work.
+
+    ip_request = requests.get('https://get.geojs.io/v1/ip.json')
+    my_ip = ip_request.json()['ip']  # ip_request.json() => {ip: 'XXX.XXX.XX.X'}
+
+
+    # Step 2) Look up the GeoIP information from a database for the user's ip
+
+    geo_request_url = 'https://get.geojs.io/v1/ip/geo/' + my_ip + '.json'
+    geo_request = requests.get(geo_request_url)
+    geo_data = geo_request.json()
+    region = geo_data['region']
+    return region
+
+
 def session_cookie(username):
     """
     :param  username:
@@ -16,8 +35,8 @@ def session_cookie(username):
     """
     try:
         payload = {
-            'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=5),
-            'begin': datetime.datetime.utcnow(),
+           'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1),
+            'iat': datetime.datetime.utcnow(),
             'username': username
         }
         session_cookies = jwt.encode(payload, key, algorithm='HS256')
@@ -26,6 +45,29 @@ def session_cookie(username):
     except Exception as e:
         return e
 
+
+def public_cookie():
+    # access token  == p_access
+    region = gps()
+    try:
+        payload = {'region':region}
+        p_access =  jwt.encode(payload, key, algorithm='HS256')
+        return p_access
+
+    except Exception as e:
+        return e
+
+
+def public_access_decoder(p_cookie):
+    """
+    :param p_cookie:
+    :return: validity of p_cookie
+    """
+    try:
+        payload = jwt.decode(p_cookie, key)
+        return 'SUCCESS' + payload['region']
+    except jwt.InvalidTokenError:
+        return 'Invalid token'
 
 
 def cookie_decoder(cookie):
@@ -49,18 +91,34 @@ def requires_auth(function):
     """
     @wraps(function)
     def decorated(*args, **kwargs):
+        p_access = False
         auth_token = False
         if not auth_token:
             auth_token = request.header.get('Authorization')
+        if not p_access:
+            p_access = request.header.get('Authorization')
+        if not p_access:
+            p_access = Response('This online libray designed for NY')
         if not auth_token:
             return Response('Missing Auth Token!\n' 'You have to login with proper credentials', 401,
                             {'WWW-Authenticate': 'Basic realm="Login Required"'})
 
         username = cookie_decoder(auth_token)
+        region = public_access_decoder(p_access)
+
         if username.startswith('SUCCESS'):
             request.userNameFromToken = username[7:]
+            return function(*args, **kwargs)
+        if region.startswith('SUCCESS'):
+            request.userNameFromToken = region[7:]
             return function(*args, **kwargs)
         else:
             return Response('\n' 'You have to login with proper credentials', 401,
                             {'WWW-Authenticate': 'Basic realm="Login Required"'})
     return decorated
+
+
+
+if __name__ == "__main__":
+    print(session_cookie("hi"))
+
