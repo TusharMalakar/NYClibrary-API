@@ -63,7 +63,3 @@ def user_login():
     except Exception as e:
         print(e)
         return json.dumps({'error': "Server error while checking if user exists.", 'code': 3})
-
-
-# if __name__ == "__main__":
-#     print(gps())
