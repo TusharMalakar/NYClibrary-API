@@ -8,4 +8,16 @@
     git pull
 
 4. do not merge with master without conversation
-    git merge branch to master
+    git merge tusharBranch
+
+
+# DistributedSystem-And-CloudComputing
+
+
+# Create virtul environemnt to run python code
+1. python -m pip  install --user  virtualenv
+2. python -m venv venv
+3. .\venv\Scripts\activate
+
+# Install "requirements.txt"
+    pip install -r requirements.txt
