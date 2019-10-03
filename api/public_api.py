@@ -122,5 +122,5 @@ def search_a_book(book_name):
         return json.dumps({'success':True, 'book_name': '{}'.format(blob.name)})
 
 
-def send_email(email):
+def send_email(email, message):
     pass
