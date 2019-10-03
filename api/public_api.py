@@ -1,6 +1,7 @@
 import json
-import security.jwtSecurity
+# import security.jwtSecurity
 from flask import Blueprint, request
+from services.database.DBConn import bucket
 
 public_api = Blueprint('public_api', __name__)
 
@@ -26,3 +27,17 @@ def read():
 def createUser():
     # http://127.0.0.1:5000/public/createUser
     return json.dumps({'success': True})
+
+
+def download_book(file_name):
+    """Downloads a blob from the bucket."""
+    blob = bucket.blob(file_name)
+    blob.download_to_filename(file_name)
+
+
+def list_of_books():
+    pass
+
+
+download_book("3.txt")
+
