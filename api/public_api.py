@@ -67,6 +67,23 @@ def createUser():
         return json.dumps({'error': "Server error while checking if email already exists.", 'code': 9})
 
 
+@public_api.route("/forget_pass")
+def reset_password():
+    request.args.get('email')
+    # send a conformation number to enter
+    pass
+
+
+@public_api.route("/send_email")
+def send_conformaintion_num():
+    pass
+
+
+@public_api.route("/get_conformation")
+def get_conformation_number():
+    pass
+
+
 # def download_book(file_name):
 #     """Downloads a blob from the bucket."""
 #     blob = bucket.blob(file_name)
@@ -104,3 +121,6 @@ def search_a_book(book_name):
     else:
         return json.dumps({'success':True, 'book_name': '{}'.format(blob.name)})
 
+
+def send_email(email):
+    pass
