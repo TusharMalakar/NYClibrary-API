@@ -1,7 +1,7 @@
 import json
 # import security.jwtSecurity
 from flask import Blueprint, request
-from services.database.DBConn import bucket
+from services.database.DBConn import (bucket, client, bucket_name)
 
 public_api = Blueprint('public_api', __name__)
 
@@ -35,8 +35,15 @@ def download_book(file_name):
     blob.download_to_filename(file_name)
 
 
+@public_api.route("/book_list", methods=['GET'])
 def list_of_books():
-    pass
+    """
+    :return: iterable_object
+    """
+    book_list = client.list_blobs(bucket_name)
+    # for blob in book_list:
+    #     print(blob.name)
+    return book_list
 
 
 download_book("3.txt")
