@@ -11,8 +11,8 @@ secure_api = Blueprint('secure_api', __name__)
 def add_books():
     # http://127.0.0.1:5000/secure/add
     """
-
-    :return:
+    param: book_name
+    :return: 'success' or 'error'
     """
     book_name = request.args.get("book_name")
     upload_book(book_name)
@@ -21,28 +21,28 @@ def add_books():
 
 @secure_api.route("/update", methods=['PUT'])
 @security.jwtSecurity.requires_auth
-def add_books():
+def update_books():
     # http://127.0.0.1:5000/secure/add
     """
-
-    :return:
+    param: book_name
+    :return: 'success' or 'error'
     """
     book_name = request.args.get("book_name")
     upload_book(book_name)
     return json.dumps({'success': True})
 
 
-@secure_api.route("/delete", methods=['DELETE'])
-@security.jwtSecurity.requires_auth
-def delete_books():
-    # http://127.0.0.1:5000/secure/delete
-    """
-
-    :return:
-    """
-    book_name = request.args.get("book_name")
-    delete_book(book_name)
-    return json.dumps({'success': True})
+# @secure_api.route("/delete", methods=['DELETE'])
+# @security.jwtSecurity.requires_auth
+# def delete_books():
+#     # http://127.0.0.1:5000/secure/delete
+#     """
+#     param: book_name
+#     :return: 'success' or 'error'
+#     """
+#     book_name = request.args.get("book_name")
+#     delete_book(book_name)
+#     return json.dumps({'success': True})
 
 
 def upload_book(file_name):
@@ -52,8 +52,8 @@ def upload_book(file_name):
         blob.upload_from_file(my_file)
 
 
-def delete_book(file_name):
-    pass
+# def delete_book(file_name):
+#     pass
 
 
-upload_book("3.txt")
+# upload_book("3.txt")

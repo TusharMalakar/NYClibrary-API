@@ -9,18 +9,9 @@ public_api = Blueprint('public_api', __name__)
 @public_api.route("/search", methods=['GET'])
 def search():
     # http://127.0.0.1:5000/public/search
-
-    return json.dumps({'success': True, 'message': "book is ready to read"})
-
-
-@public_api.route("/read", methods=['GET'])
-def read():
-    # http://127.0.0.1:5000/public/read
-    """
-
-    :return:
-    """
-    return json.dumps({'success': True})
+    book_name = request.args.get('book_name')
+    status = search_a_book(book_name)
+    return status
 
 
 @public_api.route("/createUser", methods=['POST'])
@@ -35,7 +26,7 @@ def download_book(file_name):
     blob.download_to_filename(file_name)
 
 
-@public_api.route("/book_list", methods=['GET'])
+# @public_api.route("/book_list", methods=['GET'])
 def list_of_books():
     """
     :return: iterable_object
@@ -43,8 +34,27 @@ def list_of_books():
     book_list = client.list_blobs(bucket_name)
     # for blob in book_list:
     #     print(blob.name)
-    return book_list
+    data = []
+    for i in range(book_list):
+        items= {i:i}
+    # return book_list
+    return json.dumps(data.append(items))
 
 
-download_book("3.txt")
+# @public_api.route("/read", methods=['GET'])
+# def read():
+#     # http://127.0.0.1:5000/public/read
+#     """
 
+#     :return:
+#     """
+#     return json.dumps({'success': True})
+
+
+# view without downloading the file
+def search_a_book(book_name):
+    blob = bucket.get_blob(book_name)
+    if blob is None:
+        return json.dumps({'error': "Sorry, we do not have this book!"})
+    else:
+        return json.dumps({'success':True, 'book_name': '{}'.format(blob.name)})

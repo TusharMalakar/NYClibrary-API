@@ -1,4 +1,4 @@
-import os, shutil
+import json
 from pymongo import MongoClient
 from google.cloud import storage
 
@@ -18,9 +18,3 @@ rawPath = "serviceAccount.json"
 client = storage.Client.from_service_account_json(rawPath)
 bucket_name = 'nyclibrary_nucket'
 bucket = client.get_bucket(bucket_name)
-
-
-# https://cloud.google.com/storage/docs/viewing-editing-metadata
-# view without downloading the file
-blob = bucket.get_blob("3.txt")
-print('{}'.format(blob.name))

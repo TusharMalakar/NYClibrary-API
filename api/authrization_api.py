@@ -4,7 +4,7 @@ import os
 
 from flask import Blueprint, request
 from services.database.DBConn import database
-from security.jwtSecurity import (session_cookie, public_cookie, gps)
+from security.jwtSecurity import session_cookie
 
 
 userDB = database.users
@@ -16,17 +16,17 @@ def user_login():
     """Generated End-Point Sample
     https://nyclibrary-api.appspot.com/auth/login?email=email01&password=password
     """
-    username = request.args.get("email")
+    email = request.args.get("email")
     password = request.args.get("password")
-    if not username:
-        return json.dumps({'error': "Username not provided.", 'success': False, 'code': 66})
+    if not email:
+        return json.dumps({'error': "Email not provided.", 'success': False, 'code': 66})
     if not password:
         return json.dumps({'error': "Password not provided.", 'success': False, 'code': 67})
 
-    username = username.lower()
+    email = email.lower()
 
     try:
-        record = userDB.find_one({'username': username})
+        record = userDB.find_one({'email': email})
         if record is None:
             return json.dumps({'error': "User doesn't exist.", 'success': False, 'code': 1})
         else:
@@ -39,7 +39,7 @@ def user_login():
                 newhashy.update(('%s%s' % (newSalt, actualPassword)).encode('utf-8'))
                 newhashed_password = newhashy.hexdigest()
                 userDB.update_one(
-                    {"username": username},
+                    {"email": email},
                     {
                         "$set": {
                             "salt": newSalt,
@@ -56,7 +56,7 @@ def user_login():
             hashed_password = hashy.hexdigest()
 
             if hashed_password == actualPassword:
-                authtoken = session_cookie(username).decode("utf-8")
+                authtoken = session_cookie(email).decode("utf-8")
                 return json.dumps({'success': True, 'token': authtoken})
             else:
                 return json.dumps({'error': 'Invalid Password', 'code': 2})
@@ -64,19 +64,6 @@ def user_login():
         print(e)
         return json.dumps({'error': "Server error while checking if user exists.", 'code': 3})
 
-
-@auth_api.route("/p_access", methods=['GET'])
-def public_access():
-    # http://127.0.0.1:5000/auth/p_access
-    """
-    :return:
-    """
-    region = gps()
-    if 'New York' not in region:
-        return json.dumps({'error': "this website is designed only for New Yorker!"})
-    else:
-        p_token = public_cookie().decode('utf-8')
-        return json.dumps({'success': True, 'p_token':p_token})
 
 # if __name__ == "__main__":
 #     print(gps())
