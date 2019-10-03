@@ -55,5 +55,3 @@ def upload_book(file_name):
 def delete_book(file_name):
     pass
 
-
-upload_book("3.txt")

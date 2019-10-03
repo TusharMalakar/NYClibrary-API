@@ -1,4 +1,3 @@
-import os, shutil
 from pymongo import MongoClient
 from google.cloud import storage
 
