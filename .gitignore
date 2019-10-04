@@ -7,4 +7,5 @@
 .idea
 .iml
 Dockerfile
+#ignore a folder
 postmanCaptures/
