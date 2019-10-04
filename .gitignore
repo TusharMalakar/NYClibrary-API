@@ -5,7 +5,12 @@
 *__pycache__
 .vscode
 .idea
+
+#ignore by .extension
 .iml
+
+#ignore by a filename
 Dockerfile
-#ignore a folder
+
+#ignore by a folder name
 postmanCaptures/
