@@ -30,9 +30,9 @@ def createUser():
         # result = userDB.insert_one({"email":email,"password":hashed_password})
 
         result = userDB.insert_one({"email":email,"password":password})
-        return json.dumps({"success": True})
+        return json.dumps({"success": True, 'error': 'you can log-in now, using usename and password'})
     else:
-        return json.dumps({"SUCCESS": False})
+        return json.dumps({"success": False, 'error':'User already exist.'})
 
 
 @public_api.route("/search", methods=['GET'])
