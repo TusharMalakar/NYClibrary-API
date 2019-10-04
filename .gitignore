@@ -10,7 +10,7 @@
 .iml
 
 #ignore by a filename
-Dockerfile
+#Dockerfile
 
 #ignore by a folder name
 postmanCaptures/
