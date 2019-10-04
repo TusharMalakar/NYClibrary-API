@@ -7,6 +7,4 @@
 .idea
 .iml
 Dockerfile
-
-#Dont upload PNG picture
-POST_request_using_FILE.PNG
+postmanCaptures.*
