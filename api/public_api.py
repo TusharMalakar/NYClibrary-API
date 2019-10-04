@@ -47,7 +47,7 @@ def search():
 def search_a_book(book_name):
     blob = bucket.get_blob(book_name)
     if blob is None:
-        return json.dumps({'error': "Sorry, we do not have this book!"})
+        return json.dumps({'error': "file not found"})
     else:
         return json.dumps({'success':True, 'book_name': '{}'.format(blob.name)})
 

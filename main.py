@@ -20,10 +20,12 @@ app.register_blueprint(auth_api, url_prefix='/auth')
 # root
 @app.route("/", methods=['GET'])
 def helloWorld():
-    print("hello")
     return "Welcome To NYC Libray, you can add, search and read books here."
 
 
 if __name__ == "__main__":
-    # http://127.0.0.1:5000/
-    app.run(port=5000, debug=True, host='0.0.0.0')
+    # window app.run PORT
+    app.run(port=5000, debug=True, host='127.0.0.1')
+
+    # docker app.run PORT
+    # app.run(port=5000, debug=True, host='0.0.0.0')
