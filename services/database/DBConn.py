@@ -16,7 +16,7 @@ if 'serviceAccount.json' in arr:
     print('Google Cloud Storage is Connected')
     rawPath = "serviceAccount.json"
     client = storage.Client.from_service_account_json(rawPath)
-    bucket_name = 'nyclibrary_nucket'
+    bucket_name = 'nyclibrary_bucket'
     bucket = client.get_bucket(bucket_name)
 else:
     print('serviceAccount.json not found!')

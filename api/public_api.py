@@ -11,7 +11,7 @@ public_api = Blueprint('public_api', __name__)
 
 @public_api.route("/search", methods=['GET'])
 def search():
-    # http://127.0.0.1:5000/public/search?book_name=3.txt
+    # http://127.0.0.1:5000/public/search?book_name=FALL2019.PNG
     book_name = request.args.get('book_name')
     status = search_a_book(book_name)
     return status
