@@ -9,4 +9,4 @@
 Dockerfile
 
 #Dont upload PNG picture
-*.PNG
+POST_request_using_FILE.PNG
