@@ -14,7 +14,7 @@ public_api = Blueprint('public_api', __name__)
 
 @public_api.route("/createUser", methods=['GET'])
 def createUser():
-    # http://127.0.0.1:5000/public/createUser?email=testuser100&password=password
+    # http://127.0.0.1:5000/public/createUser?email=testuser10&password=password
     email = request.args.get('email')
     password = request.args.get('password')
     if not email:
@@ -26,8 +26,10 @@ def createUser():
     record = userDB.find_one({'email': email}, {'_id': 1})
 
     if record is None:
-        hashed_password = hash_a_string(password)
-        result = userDB.insert_one({"email":email,"password":hashed_password})
+        # hashed_password = hash_a_string(password)
+        # result = userDB.insert_one({"email":email,"password":hashed_password})
+
+        result = userDB.insert_one({"email":email,"password":password})
         return json.dumps({"success": True})
     else:
         return json.dumps({"SUCCESS": False})
