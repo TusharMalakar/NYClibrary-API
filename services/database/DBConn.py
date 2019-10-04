@@ -3,16 +3,13 @@ from pymongo import MongoClient
 from google.cloud import storage
 
 
-mongo_client = MongoClient(
-    "mongodb+srv://tushar:Krishcu12%40@cluster0-d2vx4.mongodb.net/test?retryWrites=true&w=majority")
+mongo_client = MongoClient("mongodb+srv://snow:Krishcu12%40@nyclibrary-jtjj4.mongodb.net/admin?retryWrites=true&w=majority")
 database = mongo_client.NYClibrary
 
-record = database.users.find({"username": "testuser1"})
+record = database.users.find({"email":"email123"})
 if record is not None:
-    print("Mongodb Database is Connected")
-else:
-    print("None")
-
+    print("MongoDB database is Connected")
+    # print(record.__dict__)
 
 arr = os.listdir()
 if 'serviceAccount.json' in arr:

@@ -14,10 +14,12 @@ auth_api = Blueprint('auth_api', __name__)
 @auth_api.route("/login", methods=['GET'])
 def user_login():
     """Generated End-Point Sample
+    http://127.0.0.1:5000/auth/login?email=email123&password=password
     https://nyclibrary-api.appspot.com/auth/login?email=email01&password=password
     """
     email = request.args.get("email")
     password = request.args.get("password")
+    # print("inputs= ", email, password)
     if not email:
         return json.dumps({'error': "Email not provided.", 'success': False, 'code': 66})
     if not password:
@@ -26,12 +28,11 @@ def user_login():
     email = email.lower()
 
     try:
-        record = userDB.find_one({'email': email})
+        record = userDB.find_one({'email':email})
         if record is None:
             return json.dumps({'error': "User doesn't exist.", 'success': False, 'code': 1})
         else:
             actualPassword = record['password']
-
             # Fix pre-encrypted accounts.
             if 'salt' not in record:
                 newSalt = os.urandom(32).hex()
