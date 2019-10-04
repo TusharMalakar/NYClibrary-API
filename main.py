@@ -6,6 +6,7 @@ from api.secure_api import secure_api
 from api.public_api import public_api
 from api.authrization_api import auth_api
 
+
 app = Flask(__name__)
 CORS(app)
 #All endpoints in public_api.py are prefixed with the /public route.

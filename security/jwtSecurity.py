@@ -12,7 +12,7 @@ if 'API_KEY' in os.environ: SECRET_KEY = os.environ['API_KEY']
 def session_cookie(email):
     """
     :param  email:
-    :return: a session_cookie for 5 minutes for a user
+    :return: a session_cookie for 1 day for a user
     """
     try:
         payload = {
@@ -68,5 +68,10 @@ def requires_auth(function):
 
 
 # if __name__ == "__main__":
-#     print(session_cookie("hi"))
-#
+#     print(session_cookie("testEmail@gmail.com"))
+#     t = session_cookie("testEmail@gmail.com")
+#     print(cookie_decoder(t))
+#     email = cookie_decoder(t)
+#     email = email[7:]
+#     print(email)
+

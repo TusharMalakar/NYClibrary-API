@@ -3,10 +3,9 @@ from pymongo import MongoClient
 from google.cloud import storage
 
 
-mongo_client = MongoClient("mongodb+srv://snow:Krishcu12%40@nyclibrary-jtjj4.mongodb.net/admin?retryWrites=true&w=majority")
-database = mongo_client.NYClibrary
-
-record = database.users.find({"email":"email123"})
+mongo_client = MongoClient("mongodb+srv://tushar:Krishcu12%40@cluster0-d2vx4.mongodb.net/admin?retryWrites=true&w=majority")
+database = mongo_client.BlockChain
+record = database.users.find({"email":"testuser1"})
 if record is not None:
     print("MongoDB database is Connected")
     # print(record.__dict__)

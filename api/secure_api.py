@@ -1,23 +1,25 @@
 import json
 import security.jwtSecurity
+
 from flask import Blueprint, request
 from services.database.DBConn import bucket
+from api.public_api import (search, search_a_book)
 
 secure_api = Blueprint('secure_api', __name__)
 
 
-# @secure_api.route("/add", methods=['POST'])
-# @security.jwtSecurity.requires_auth
-# def add_books():
-#     # http://127.0.0.1:5000/secure/add
-#     """
-#     param: book_name
-#     :return: 'success' or 'error'
-#     """
-#     book_name = request.args.get("book_name")
-#     upload_book(book_name)
-#     return json.dumps({'success': True})
-#
+@secure_api.route("/add", methods=['POST'])
+@security.jwtSecurity.requires_auth
+def add_books():
+    # http://127.0.0.1:5000/secure/add
+    """
+    param: book_name
+    :return: 'success' or 'error'
+    """
+    book_name = request.args.get("book_name")
+    upload_book(book_name)
+    return json.dumps({'success': True})
+
 #
 # @secure_api.route("/update", methods=['PUT'])
 # @security.jwtSecurity.requires_auth

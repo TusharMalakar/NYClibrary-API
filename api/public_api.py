@@ -1,12 +1,36 @@
-import os, json, hashlib
-import security.jwtSecurity
+import os
+import json
+import hashlib
+
 from services.database.DBConn import database
 from flask import Blueprint, request
 from services.database.DBConn import (bucket, client, bucket_name)
 
 
+
 userDB = database.users
 public_api = Blueprint('public_api', __name__)
+
+
+@public_api.route("/createUser", methods=['GET'])
+def createUser():
+    # http://127.0.0.1:5000/public/createUser?email=testuser100&password=password
+    email = request.args.get('email')
+    password = request.args.get('password')
+    if not email:
+        return json.dumps({'error': "Email parameter was not provided.", 'code': 1})
+    if not password:
+        return json.dumps({'error': "Password parameter was not provided.", 'code': 2})
+    if len(password) < 6 or len(password) > 52:
+        return json.dumps({'error': "Password must be at least 6 characters and less than 52 characters long.", 'code': 3})
+    record = userDB.find_one({'email': email}, {'_id': 1})
+
+    if record is None:
+        hashed_password = hash_a_string(password)
+        result = userDB.insert_one({"email":email,"password":hashed_password})
+        return json.dumps({"success": True})
+    else:
+        return json.dumps({"SUCCESS": False})
 
 
 @public_api.route("/search", methods=['GET'])
@@ -17,52 +41,49 @@ def search():
     return status
 
 
+# view without downloading the file
+def search_a_book(book_name):
+    blob = bucket.get_blob(book_name)
+    if blob is None:
+        return json.dumps({'error': "Sorry, we do not have this book!"})
+    else:
+        return json.dumps({'success':True, 'book_name': '{}'.format(blob.name)})
+
+
+# encrypting a string with salt
+def hash_a_string(str):
+    salt = os.urandom(32).hex()
+    hashy = hashlib.sha512()
+    hashy.update(('%s%s' % (salt, str)).encode('utf-8'))
+    hashed_str = hashy.hexdigest()
+    return hashed_str
+
+##################################################################################
+
+
+
+# @public_api.route("/forget_pass")
+# def reset_password():
+#     request.args.get('email')
+#     # send a conformation number to enter
+#     pass
+#
+#
+# @public_api.route("/send_email")
+# def send_conformaintion_num():
+#     pass
+#
+#
+# @public_api.route("/get_conformation")
+# def get_conformation_number():
+#     pass
+
+
 # @public_api.route("/download_book", methods =['GET'])
 # def download_a_book():
 #     book_name = request.args.get('book_name')
 #     book = download_book(book_name)
 #     return json.dumps({'book':book})
-
-
-@public_api.route("/createUser", methods=['PUT'])
-def createUser():
-    # http://127.0.0.1:5000/public/createUser
-    email = request.args.get('email')
-    password = request.agrs.get('password')
-    if not email:
-        return json.dumps({'error': "Email parameter was not provided.", 'code': 1})
-    if not password:
-        return json.dumps({'error': "Password parameter was not provided.", 'code': 2})
-    
-    email = email.lower()
-    if len(password) < 6 or len(password) > 52:
-        return json.dumps({'error': "Password must be at least 6 characters and less than 52 characters long.", 'code': 6})
-    try:
-        record = userDB.find_one({'email': email}, {'_id': 1})
-        if record is None:
-            user = {'email': email,  'password': password}
-            result = userDB.insert_one(user)
-            if result.inserted_id:
-                print("created new user: " + email)
-    except Exception as e:
-        return e
-
-
-@public_api.route("/forget_pass")
-def reset_password():
-    request.args.get('email')
-    # send a conformation number to enter
-    pass
-
-
-@public_api.route("/send_email")
-def send_conformaintion_num():
-    pass
-
-
-@public_api.route("/get_conformation")
-def get_conformation_number():
-    pass
 
 
 # def download_book(file_name):
@@ -94,14 +115,7 @@ def get_conformation_number():
 #     return json.dumps({'success': True})
 
 
-# view without downloading the file
-def search_a_book(book_name):
-    blob = bucket.get_blob(book_name)
-    if blob is None:
-        return json.dumps({'error': "Sorry, we do not have this book!"})
-    else:
-        return json.dumps({'success':True, 'book_name': '{}'.format(blob.name)})
 
 
-def send_email(email, message):
-    pass
+# def send_email(email, message):
+#     pass
