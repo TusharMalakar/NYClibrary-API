@@ -35,36 +35,17 @@ def createUser():
         return json.dumps({'error': "Password parameter was not provided.", 'code': 2})
     
     email = email.lower()
-    if "@" not in email:
-        return json.dumps({'error': "email is not a valid email.", 'code': 3})
-    if email[-18:] != "@myhunter.cuny.edu":
-        return json.dumps({'error': "Email is not a valid @myhunter.cuny.edu email.", 'code': 4})
-    if email[:-18] == "":
-        return json.dumps({'error': "@myhunter.cuny.edu email is invalid.", 'code': 5})
-
     if len(password) < 6 or len(password) > 52:
         return json.dumps({'error': "Password must be at least 6 characters and less than 52 characters long.", 'code': 6})
-
-    salt = os.urandom(32).hex()
-    hashy = hashlib.sha512()
-    hashy.update(('%s%s' % (salt, password)).encode('utf-8'))
-    hashed_password = hashy.hexdigest()
     try:
         record = userDB.find_one({'email': email}, {'_id': 1})
         if record is None:
-            user = {'email': email, 'salt': salt, 'password': hashed_password}
+            user = {'email': email,  'password': password}
             result = userDB.insert_one(user)
             if result.inserted_id:
-                # print("created new user: " + email)
-                authtoken = security.jwtSecurity.session_cookie(email).decode("utf-8")
-                return json.dumps({'success': True, 'token': authtoken})
-            else:
-                return json.dumps({'error': "Server error while creating new user.", 'code': 7})
-        else:
-            return json.dumps({'error': "User already exists.", 'code': 8})
+                print("created new user: " + email)
     except Exception as e:
-        print(e)
-        return json.dumps({'error': "Server error while checking if email already exists.", 'code': 9})
+        return e
 
 
 @public_api.route("/forget_pass")

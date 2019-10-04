@@ -14,12 +14,12 @@ auth_api = Blueprint('auth_api', __name__)
 @auth_api.route("/login", methods=['GET'])
 def user_login():
     """Generated End-Point Sample
-    http://127.0.0.1:5000/auth/login?email=email123&password=password
-    https://nyclibrary-api.appspot.com/auth/login?email=email01&password=password
+    http://127.0.0.1:5000/auth/login?email=tusharcu12@gmail.com&password=password
+    https://nyclibrary-api.appspot.com/auth/login?email=tusharcu12@gmail.com&password=password
     """
     email = request.args.get("email")
     password = request.args.get("password")
-    # print("inputs= ", email, password)
+    print("inputs= ", email, password)
     if not email:
         return json.dumps({'error': "Email not provided.", 'success': False, 'code': 66})
     if not password:
