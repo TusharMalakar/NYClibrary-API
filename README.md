@@ -30,7 +30,17 @@
         eg: if you want to merge your local branch with tusharBranch
             git merge tusharBranch
             
+            
 </div>
+
+
+<div>
+    #Stop giving username and password for every commit:
+    
+            - git config --global user.name "example@gmail.com"
+            - git config --global user.password "password"
+</div>
+
 <div>
     # Create virtul environemnt to run python code
         
