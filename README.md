@@ -38,10 +38,16 @@
             python -m pip  install --user  virtualenv
             
         - create an instance of virtual environment:
-            python -m venv venv
+            linux:
+                virtualenv venv
+            window:
+                python -m venv venv
             
          - activate your virtual environment:
-            .\venv\Scripts\activate
+            linux:
+                . venv/bin/activate
+            window:
+              .\venv\Scripts\activate
     
     # Install "requirements.txt"
         pip install -r requirements.txt
