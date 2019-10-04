@@ -20,6 +20,7 @@ app.register_blueprint(auth_api, url_prefix='/auth')
 # root
 @app.route("/", methods=['GET'])
 def helloWorld():
+    print("hello")
     return "Welcome To NYC Libray, you can add, search and read books here."
 
 

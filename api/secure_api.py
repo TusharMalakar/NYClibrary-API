@@ -1,4 +1,4 @@
-import json
+import json, requests, os
 import security.jwtSecurity
 
 from flask import Blueprint, request
@@ -7,17 +7,25 @@ from services.database.DBConn import bucket
 secure_api = Blueprint('secure_api', __name__)
 
 
-# @secure_api.route("/add", methods=['POST'])
-# # @security.jwtSecurity.requires_auth
-# def add_books():
-#     # http://127.0.0.1:5000/secure/add?book_name=README.txt
-#     """
-#     param: book_name
-#     :return: 'success' or 'error'
-#     """
-#     book_name = file = request.files['book_name']
-#     upload_book(book_name)
-#     return json.dumps({'success': True})
+@secure_api.route('/file', methods=['POST'])
+def handle_form():
+    p = "Posted file: {}".format(request.files['file'])
+    file = request.file['file']
+    raw = f"/home/snow/Desktop/{file}"
+    upload_book(raw)
+    return p
+
+@secure_api.route("/add", methods=['POST'])
+# @security.jwtSecurity.requires_auth
+def add_books():
+    # http://127.0.0.1:5000/secure/add?book_name=README.txt
+    """
+    param: book_name
+    :return: 'success' or 'error'
+    """
+    book_name = file = request.files['book_name']
+    upload_book(book_name)
+    return json.dumps({'success': True})
 
 
 def upload_book(file_name):
