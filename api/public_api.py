@@ -60,8 +60,53 @@ def hash_a_string(str):
     hashed_str = hashy.hexdigest()
     return hashed_str
 
+
+@public_api.route("/book_list", methods=['GET'])
+def list_of_books():
+    """
+    :param: None
+    :return: list of all available books
+    """
+    book_list = client.list_blobs(bucket_name)
+    list = []
+    try:
+        for value in book_list:
+            book = value.name
+            list.append(book)
+        return json.dumps(list)
+    except Exception as e:
+        print(e)
+        return json.dumps({'error': "No value found"})
+
+
 ##################################################################################
 
+
+# @public_api.route("/download_book", methods =['GET'])
+# def download_a_book():
+#     book_name = request.args.get('book_name')
+#     book = download_book(book_name)
+#     return json.dumps({'book':book})
+
+
+# def download_book(file_name):
+#     """Downloads a blob from the bucket."""
+#     blob = bucket.blob(file_name)
+#     blob.download_to_filename(file_name)
+
+
+
+# def download_blob(bucket_name, source_blob_name, destination_file_name):
+#     """Downloads a blob from the bucket."""
+#     storage_client = storage.Client()
+#     bucket = storage_client.get_bucket(bucket_name)
+#     blob = bucket.blob(source_blob_name)
+#
+#     blob.download_to_filename(destination_file_name)
+#
+#     print('Blob {} downloaded to {}.'.format(
+#         source_blob_name,
+#         destination_file_name))
 
 
 # @public_api.route("/forget_pass")
@@ -79,32 +124,6 @@ def hash_a_string(str):
 # @public_api.route("/get_conformation")
 # def get_conformation_number():
 #     pass
-
-
-# @public_api.route("/download_book", methods =['GET'])
-# def download_a_book():
-#     book_name = request.args.get('book_name')
-#     book = download_book(book_name)
-#     return json.dumps({'book':book})
-
-
-# def download_book(file_name):
-#     """Downloads a blob from the bucket."""
-#     blob = bucket.blob(file_name)
-#     blob.download_to_filename(file_name)
-
-
-# @public_api.route("/book_list", methods=['GET'])
-# def list_of_books():
-#     """
-#     :return: iterable_object
-#     """
-#     book_list = client.list_blobs(bucket_name)
-#     # for blob in book_list:
-#     #     print(blob.name)
-
-#     # NB: Create a json file bofore return
-#     return book_list
 
 
 # @public_api.route("/read", methods=['GET'])
