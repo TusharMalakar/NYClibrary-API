@@ -12,10 +12,10 @@ userDB = database.users
 public_api = Blueprint('public_api', __name__)
 
 
-@public_api.route("/create_user", methods=['POST'])
+@public_api.route("/create_user", methods=['GET'])
 def createUser():
     """
-    #http://127.0.0.1:5000/public/createUser
+    #http://127.0.0.1:5000/public/create_user
     body = {
 	"email":"example@gmail.com",
 	"password":"password123"
@@ -23,10 +23,13 @@ def createUser():
     :return: {"success": false, "error": "User already exist."}
             or  {"success": True, 'message': 'you can log-in now, using usename and password'}
     """
-    # ?email=testuser10&password=password
-    body = request.get_json()
-    email = body['email']
-    password = body['password']
+    # http://127.0.0.1:5000/public/create_user?email=testuser10&password=password //GET
+    # body = request.get_json()
+    # email = body['email']
+    # password = body['password']
+
+    email = book_name = request.args.get('email')
+    password =book_name = request.args.get('password')
     print(email, password)
 
     if not email:
