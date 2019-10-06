@@ -20,7 +20,6 @@ def createUser():
 	"email":"example@gmail.com",
 	"password":"password123"
     }
-
     :return: {"success": false, "error": "User already exist."}
             or  {"success": True, 'message': 'you can log-in now, using usename and password'}
     """
