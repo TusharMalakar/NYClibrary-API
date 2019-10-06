@@ -37,8 +37,8 @@
 <div>
     #Stop giving username and password for every commit:
     
-            - git config --global user.name "example@gmail.com"
-            - git config --global user.password "password"
+             git config --global user.name "example@gmail.com"
+             git config --global user.password "password"
 </div>
 
 <div>
