@@ -12,11 +12,24 @@ userDB = database.users
 public_api = Blueprint('public_api', __name__)
 
 
-@public_api.route("/createUser", methods=['GET'])
+@public_api.route("/createUser", methods=['POST'])
 def createUser():
-    # http://127.0.0.1:5000/public/createUser?email=testuser10&password=password
-    email = request.args.get('email')
-    password = request.args.get('password')
+    """
+    #http://127.0.0.1:5000/public/createUser
+    body = {
+	"email":"example@gmail.com",
+	"password":"password123"
+    }
+
+    :return: {"success": false, "error": "User already exist."}
+            or  {"success": True, 'message': 'you can log-in now, using usename and password'}
+    """
+    # ?email=testuser10&password=password
+    body = request.get_json()
+    email = body['email']
+    password = body['password']
+    print(email, password)
+
     if not email:
         return json.dumps({'error': "Email parameter was not provided.", 'code': 1})
     if not password:
@@ -30,7 +43,7 @@ def createUser():
         # result = userDB.insert_one({"email":email,"password":hashed_password})
 
         result = userDB.insert_one({"email":email,"password":password})
-        return json.dumps({"success": True, 'error': 'you can log-in now, using usename and password'})
+        return json.dumps({"success": True, 'message': 'you can log-in now, using usename and password'})
     else:
         return json.dumps({"success": False, 'error':'User already exist.'})
 

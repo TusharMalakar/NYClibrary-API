@@ -10,7 +10,11 @@ secure_api = Blueprint('secure_api', __name__)
 @secure_api.route('/add', methods=['PUT'])
 # @security.jwtSecurity.requires_auth
 def add_books():
-     # http://127.0.0.1:5000/secure/add?book_name=README.txt
+     # http://127.0.0.1:5000/secure/add
+     # body ={
+     #
+     #     key = "book_name" & value = "README.txt"
+     #    }
     """
     param: book_name
     :return: 'success' or 'error'
