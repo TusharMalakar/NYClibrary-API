@@ -8,3 +8,4 @@ PyJWT == 1.7.1
 pymongo == 3.9.0
 dnspython == 1.16.0
 google-cloud-storage == 1.20.0
+awscli == 1.16.253
