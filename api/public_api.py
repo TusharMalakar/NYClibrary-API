@@ -12,7 +12,7 @@ userDB = database.users
 public_api = Blueprint('public_api', __name__)
 
 
-@public_api.route("/createUser", methods=['POST'])
+@public_api.route("/create_user", methods=['POST'])
 def createUser():
     """
     #http://127.0.0.1:5000/public/createUser

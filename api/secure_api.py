@@ -13,7 +13,7 @@ def add_books():
      # http://127.0.0.1:5000/secure/add
      # body ={
      #
-     #     key = "book_name" & value = "README.txt"
+     #     key = "file" & value = "README.txt"
      #    }
     """
     param: book_name
@@ -37,7 +37,7 @@ def upload_book(file_name):
 @secure_api.route("/delete", methods=['DELETE'])
 # @security.jwtSecurity.requires_auth
 def delete_books():
-    # http://127.0.0.1:5000/secure/delete
+    # http://127.0.0.1:5000/secure/delete?book_name=bookname.txt
     """
     param: book_name
     :return: 'success' or 'error'
